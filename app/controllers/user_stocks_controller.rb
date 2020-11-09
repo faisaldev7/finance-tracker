@@ -1,7 +1,7 @@
 class UserStocksController < ApplicationController
 
   def create
-    stock= check_db(params[:ticker])
+    stock= Stock.check_db(params[:ticker])
     if stock.blank?
       stock= Stock.new_lookup(params[:ticker])
       stock.save
@@ -12,8 +12,14 @@ class UserStocksController < ApplicationController
 
   end
 
-  def check_db(ticker_symbol)
-   Stock.where(ticker: ticker_symbol).first
+  def destroy
+    stock= Stock.find(params[:id])
+    user_stock= UserStock.where(user_id: current_user.id, stock_id: stock.id).first
+    user_stock.destroy
+    flash[:notice]= "Stock #{stock.name} was successfully removed from your portfolio"
+    redirect_to my_portfolio_path
   end
+
+
 
 end
