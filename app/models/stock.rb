@@ -13,4 +13,7 @@ class Stock < ApplicationRecord
       return nil
     end
   end
+
+  
+
 end
