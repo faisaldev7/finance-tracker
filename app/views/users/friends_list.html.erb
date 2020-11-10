@@ -1,28 +1,27 @@
 <h2 style="margin-top: 20px">My Friends</h2>
-<% if !@my_friends.empty? %>
-<div class="row">
-  <div class="col-9">
-    <table class="table table-bordered table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Email</th>
-          <th scope="col">First Name</th>
-          <th scope="col">Last Name</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @my_friends.each do |friend| %>
-        <tr>
-          <td><%= friend.email%></td>
-          <td><%= friend.first_name%></td>
-          <td><%= friend.last_name%></td>
-          <td><%= link_to 'Unfollowing', '#', method: :delete, data: {confirm: 'Are you sure'},
-                                         class:'btn btn-sm btn-warning'%></td>
-        </tr>
+
+<div class="search_area">
+  <h3> Search friends </h3>
+  <%= form_tag search_friend_path, remote:true, method: :get do %>
+    <div class="form-group row">
+      <div class="col-sm-9 no-right-padding">
+        <%= text_field_tag :friend, params[:friend], placeholder: "Search friends",
+                                  class: "form-control form-control-lg, autofocus: true" %>
+      </div>
+      <div class="col-sm-3 no-left-padding">
+        <%= button_tag type: :submit, class: "btn btn-success" do %>
+          <%= fa_icon 'search' %>
         <% end %>
-      </tbody>
-    </table>
+      </div>
+    </div>
+    <% end %>
   </div>
+
+<% if !@my_friends.empty? %>
+<%= render 'friends/list' %>
+<% end %>
+
+
+<div id="friend-results">
+
 </div>
-<%end%>
